@@ -1,0 +1,124 @@
+[gd_scene load_steps=16 format=3 uid="uid://dxu3p2nphjywt"]
+
+[ext_resource type="PackedScene" uid="uid://ddlstsiljppr4" path="res://models/Monster/Monster.blend" id="1_ptsec"]
+[ext_resource type="PackedScene" uid="uid://bricck67fgff4" path="res://Scenes/Enemy/enemy.tscn" id="1_tub04"]
+[ext_resource type="Script" uid="uid://c3arvoyojmyqx" path="res://Scenes/Enemy/monster.gd" id="2_g1ejd"]
+[ext_resource type="AudioStream" uid="uid://cbs80csli1c3w" path="res://Sounds/monster_hit.mp3" id="4_pwnbr"]
+[ext_resource type="AudioStream" uid="uid://bbqpjddoesqom" path="res://Sounds/monster-bite-44538.mp3" id="5_pwnbr"]
+
+[sub_resource type="SeparationRayShape3D" id="SeparationRayShape3D_g1ejd"]
+length = 2.57102
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_tub04"]
+radius = 0.679478
+height = 3.75041
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_g1ejd"]
+animation = &"atatack_m"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_3f5x2"]
+animation = &"emerge"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_pwnbr"]
+animation = &"idle_m"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_53qf5"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_tja47"]
+xfade_time = 0.2
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_rg08r"]
+states/Start/position = Vector2(236, 100)
+states/emerge/node = SubResource("AnimationNodeAnimation_3f5x2")
+states/emerge/position = Vector2(388, 100)
+states/idle_m/node = SubResource("AnimationNodeAnimation_pwnbr")
+states/idle_m/position = Vector2(552, 100)
+transitions = ["Start", "emerge", SubResource("AnimationNodeStateMachineTransition_53qf5"), "emerge", "idle_m", SubResource("AnimationNodeStateMachineTransition_tja47")]
+graph_offset = Vector2(3, -9)
+
+[sub_resource type="AnimationNodeOneShot" id="AnimationNodeOneShot_g1ejd"]
+
+[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_g1ejd"]
+graph_offset = Vector2(-514.222, 108.923)
+nodes/Animation/node = SubResource("AnimationNodeAnimation_g1ejd")
+nodes/Animation/position = Vector2(-180, 320)
+nodes/MoveStateMachine/node = SubResource("AnimationNodeStateMachine_rg08r")
+nodes/MoveStateMachine/position = Vector2(-200, 120)
+nodes/OneShot/node = SubResource("AnimationNodeOneShot_g1ejd")
+nodes/OneShot/position = Vector2(180, 280)
+nodes/output/position = Vector2(460, 180)
+node_connections = [&"OneShot", 0, &"MoveStateMachine", &"OneShot", 1, &"Animation", &"output", 0, &"OneShot"]
+
+[node name="Monster" instance=ExtResource("1_tub04")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+collision_mask = 14
+script = ExtResource("2_g1ejd")
+max_health = 100
+current_health = 100
+
+[node name="Area3D" type="Area3D" parent="." index="0"]
+collision_layer = 4
+collision_mask = 2
+
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="Area3D" index="0"]
+transform = Transform3D(1, 0, 0, 0, 0.844206, -0.536018, 0, 0.536018, 0.844206, 0, 3.33739, 0.514124)
+shape = SubResource("SeparationRayShape3D_g1ejd")
+
+[node name="monster" parent="." index="1" instance=ExtResource("1_ptsec")]
+transform = Transform3D(1, 0, 0, 0, 0.999999, 0, 0, 0, 0.999999, 0, 4.29153e-06, -4.76837e-07)
+
+[node name="Skeleton3D" parent="monster/Armature" index="0"]
+bones/1/rotation = Quaternion(-0.121283, 2.77333e-14, 2.89162e-08, 0.992618)
+bones/2/rotation = Quaternion(-0.0098637, -2.01693e-17, 2.35169e-09, 0.999951)
+bones/3/rotation = Quaternion(0.0444032, -1.01569e-14, -1.05866e-08, 0.999014)
+bones/4/rotation = Quaternion(0.182236, -1.1247e-09, -3.61124e-08, 0.983255)
+bones/5/rotation = Quaternion(0.379291, -2.59991e-09, -8.34785e-08, 0.925277)
+bones/6/position = Vector3(1.07727e-07, 1.48012, 0.451839)
+bones/6/rotation = Quaternion(0.796967, -2.39105e-07, -4.56369e-07, 0.604023)
+bones/7/position = Vector3(1.08069e-07, 1.19695, 0.453274)
+bones/7/rotation = Quaternion(0.81259, -3.82757e-07, -6.5101e-07, 0.582836)
+bones/8/position = Vector3(0.149605, 1.48484, 0.202981)
+bones/8/rotation = Quaternion(-0.603374, -0.274541, 0.169636, 0.72924)
+bones/9/rotation = Quaternion(-0.269802, 0.00106222, 0.247371, 0.930598)
+bones/14/position = Vector3(-0.149605, 1.48484, 0.202981)
+bones/14/rotation = Quaternion(-0.569487, 0.281993, -0.156939, 0.755999)
+bones/15/rotation = Quaternion(-0.269802, -0.00106227, -0.247371, 0.930598)
+bones/20/position = Vector3(0.104187, 1.38479, 0.272759)
+bones/20/rotation = Quaternion(-0.698734, -0.238751, 0.201812, 0.64346)
+bones/21/rotation = Quaternion(-0.305509, -0.0125416, 0.237058, 0.922123)
+bones/26/position = Vector3(-0.104187, 1.38479, 0.272759)
+bones/26/rotation = Quaternion(-0.735613, 0.226381, -0.215596, 0.600952)
+bones/27/rotation = Quaternion(-0.305509, 0.0125416, -0.237058, 0.922123)
+bones/32/position = Vector3(0.272361, 1.35282, 0.419561)
+bones/32/rotation = Quaternion(0.808123, -0.0209012, 0.017075, 0.588395)
+bones/33/position = Vector3(-0.255292, 1.3717, 0.423857)
+bones/33/rotation = Quaternion(0.80941, 0.0081675, -0.00403132, 0.587173)
+
+[node name="CollisionShape3D" parent="." index="2"]
+transform = Transform3D(1, 0, 0, 0, 0.982919, 0.184037, 0, -0.184037, 0.982919, 0, 1.76525, -0.33738)
+shape = SubResource("CapsuleShape3D_tub04")
+
+[node name="AnimationTree" parent="." index="3"]
+root_node = NodePath("../monster")
+tree_root = SubResource("AnimationNodeBlendTree_g1ejd")
+anim_player = NodePath("../monster/AnimationPlayer")
+parameters/OneShot/active = false
+parameters/OneShot/internal_active = false
+parameters/OneShot/request = 0
+
+[node name="AttackTimer" parent="Timers" index="0"]
+wait_time = 2.0
+autostart = true
+
+[node name="HitPlayer" type="AudioStreamPlayer" parent="." index="5"]
+stream = ExtResource("4_pwnbr")
+
+[node name="AttackPlayer" type="AudioStreamPlayer" parent="." index="6"]
+stream = ExtResource("5_pwnbr")
+
+[connection signal="body_entered" from="Area3D" to="." method="_on_area_3d_body_entered"]
+[connection signal="timeout" from="Timers/AttackTimer" to="." method="_on_attack_timer_timeout"]
+
+[editable path="monster"]

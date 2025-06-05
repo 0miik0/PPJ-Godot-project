@@ -1,0 +1,24 @@
+[gd_scene load_steps=3 format=3 uid="uid://bg7yhakxlc721"]
+
+[ext_resource type="Script" uid="uid://cc7vmffui6dex" path="res://Scenes/vfx/fireball.gd" id="1_rn4p0"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_fhhd8"]
+radius = 0.205529
+
+[node name="Fireball" type="Area3D"]
+collision_layer = 8
+collision_mask = 7
+script = ExtResource("1_rn4p0")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_fhhd8")
+
+[node name="CSGSphere3D" type="CSGSphere3D" parent="."]
+radius = 0.2
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 2.0
+autostart = true
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

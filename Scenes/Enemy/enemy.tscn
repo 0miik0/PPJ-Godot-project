@@ -1,0 +1,17 @@
+[gd_scene load_steps=2 format=3 uid="uid://bricck67fgff4"]
+
+[ext_resource type="Script" uid="uid://dft6aojkrfxsx" path="res://Scenes/Enemy/enemy.gd" id="1_mw074"]
+
+[node name="Enemy" type="CharacterBody3D"]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0, 0, 0)
+collision_layer = 4
+collision_mask = 7
+script = ExtResource("1_mw074")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+
+[node name="Timers" type="Node" parent="."]
+
+[node name="AttackTimer" type="Timer" parent="Timers"]

@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://dvbyn3gs8iq1f"
+path="res://.godot/imported/Bloom Into You Ending - hectopascal [ENG  Romaji  Color Coded].mp3-cd0e3e2487003545e205653fbbfd6425.mp3str"
+
+[deps]
+
+source_file="res://Bloom Into You Ending - hectopascal [ENG  Romaji  Color Coded].mp3"
+dest_files=["res://.godot/imported/Bloom Into You Ending - hectopascal [ENG  Romaji  Color Coded].mp3-cd0e3e2487003545e205653fbbfd6425.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

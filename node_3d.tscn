@@ -1,0 +1,121 @@
+[gd_scene load_steps=17 format=3 uid="uid://btiuydhrbpgmc"]
+
+[ext_resource type="Script" uid="uid://cf4rh7lk02gvd" path="res://addons/zylann.hterrain/hterrain.gd" id="1_a0tk4"]
+[ext_resource type="Script" uid="uid://lmcagodvhjhh" path="res://node_3d.gd" id="1_jsk3o"]
+[ext_resource type="Resource" uid="uid://c6hhi7xbqg5om" path="res://terrain/data.hterrain" id="2_r3fl7"]
+[ext_resource type="Script" uid="uid://dewf22wheehco" path="res://addons/zylann.hterrain/hterrain_texture_set.gd" id="3_jka67"]
+[ext_resource type="Texture2D" uid="uid://d23vk4va7i3nh" path="res://terrain/node_3d_slot1_albedo_bump.png" id="4_jka67"]
+[ext_resource type="Texture2D" uid="uid://dwjmw6e3h1me" path="res://terrain/node_3d_slot1_normal_roughness.png" id="5_i5arm"]
+[ext_resource type="PackedScene" uid="uid://bvs1rdv5utdjx" path="res://Scenes/Player/player.tscn" id="6_i5arm"]
+[ext_resource type="PackedScene" uid="uid://dxu3p2nphjywt" path="res://Scenes/Enemy/monster.tscn" id="7_wc5p8"]
+[ext_resource type="PackedScene" uid="uid://dtgxhns3m1r1x" path="res://Scenes/Menu/menu.tscn" id="9_4arys"]
+[ext_resource type="AudioStream" uid="uid://bq6x7xu3l2nga" path="res://Sounds/wind.mp3" id="10_6iypd"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_jka67"]
+sky_top_color = Color(0.820052, 0.433829, 0.426352, 1)
+sky_horizon_color = Color(0.828615, 0.724309, 0.71344, 1)
+ground_horizon_color = Color(0.828615, 0.724309, 0.71344, 1)
+energy_multiplier = 0.95
+
+[sub_resource type="Sky" id="Sky_i5arm"]
+sky_material = SubResource("ProceduralSkyMaterial_jka67")
+
+[sub_resource type="Environment" id="Environment_wc5p8"]
+background_mode = 2
+sky = SubResource("Sky_i5arm")
+tonemap_mode = 2
+sdfgi_enabled = true
+fog_enabled = true
+fog_light_color = Color(0.631559, 0.512919, 0.554181, 1)
+fog_density = 0.0034
+fog_sky_affect = 0.437
+fog_height_density = 4.8742
+
+[sub_resource type="Resource" id="Resource_i5arm"]
+script = ExtResource("3_jka67")
+mode = 0
+textures = [[ExtResource("4_jka67")], [ExtResource("5_i5arm")]]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4arys"]
+bg_color = Color(0.351563, 0.351563, 0.351563, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_6iypd"]
+bg_color = Color(0.910373, 0.375444, 0.478917, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[node name="world" type="Node3D"]
+script = ExtResource("1_jsk3o")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_wc5p8")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -0.500003, 0.749999, -0.43301, 4.05463, 157.976, 53.9816)
+light_color = Color(1, 0.980392, 0.870588, 1)
+light_energy = 0.677
+shadow_enabled = true
+
+[node name="HTerrain" type="Node3D" parent="."]
+script = ExtResource("1_a0tk4")
+ambient_wind = 0.072
+centered = true
+_terrain_data = ExtResource("2_r3fl7")
+chunk_size = 32
+collision_enabled = true
+collision_layer = 1
+collision_mask = 1
+shader_type = "Classic4Lite"
+custom_shader = null
+custom_globalmap_shader = null
+texture_set = SubResource("Resource_i5arm")
+render_layers = 1
+cast_shadow = 1
+shader_params/u_ground_uv_scale = 20
+shader_params/u_depth_blending = true
+shader_params/u_triplanar = null
+shader_params/u_tile_reduction = null
+metadata/_custom_type_script = "uid://cf4rh7lk02gvd"
+
+[node name="Entities" type="Node3D" parent="."]
+
+[node name="Monster" parent="Entities" groups=["Monster"] instance=ExtResource("7_wc5p8")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 67.8831, 143.399, 200.355)
+
+[node name="Player" parent="Entities" instance=ExtResource("6_i5arm")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 70.0928, 144.216, 208.78)
+
+[node name="Projectiles" type="Node3D" parent="."]
+
+[node name="Menu" parent="." instance=ExtResource("9_4arys")]
+visible = false
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="HUD" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 1153.0
+offset_bottom = 662.0
+
+[node name="HealthBar" type="ProgressBar" parent="CanvasLayer/HUD"]
+layout_mode = 0
+offset_left = 768.0
+offset_top = 586.0
+offset_right = 1120.0
+offset_bottom = 609.0
+theme_override_styles/background = SubResource("StyleBoxFlat_4arys")
+theme_override_styles/fill = SubResource("StyleBoxFlat_6iypd")
+show_percentage = false
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("10_6iypd")
+autoplay = true
+
+[connection signal="cast_spell" from="Entities/Player" to="." method="_on_player_cast_spell"]
